@@ -6,7 +6,7 @@
  *  Fonte de verdade compartilhada entre os projetos do ecossistema:
  *  Portfolio · Painel_Saude · Painel_Financeiro · Cartela_Cores
  *
- *  ARQUITETURA DE DUAS CAMADAS
+ *  ARQUITETURA — DUAS CAMADAS AQUI, 3ª OPCIONAL POR PRODUTO
  *  ┌─ Primitivos ────────────────────────────────────────────┐
  *  │  Valores fixos — a paleta, as escalas, o DNA.            │
  *  │  Não mudam entre produtos nem entre modos.               │
@@ -14,8 +14,18 @@
  *  └──────────────────────────────────────────────────────────┘
  *  ┌─ Semânticos ────────────────────────────────────────────┐
  *  │  Aliases de papel → primitivo.                           │
- *  │  São estes que os componentes usam.                      │
  *  │  Mudam de valor no dark mode e na camada de produto.     │
+ *  └──────────────────────────────────────────────────────────┘
+ *  ┌─ Componente (opcional, definida em cada produto) ────────┐
+ *  │  Aliases de UI → semântico (ex: --btn-primary-bg).       │
+ *  │  Nunca referencia primitivo direto. É isso que os        │
+ *  │  componentes (.btn-*/.card/.badge) usam quando o produto │
+ *  │  adota esta camada — dá controle por variante sem mexer  │
+ *  │  no que o semântico significa pro resto do app.          │
+ *  │  Referência aplicada: Painel_Saude/src/styles/app.css    │
+ *  │  (retrofit completo, 2026-08-10) + tokens.json (grupo    │
+ *  │  "component"). Convenção documentada em                  │
+ *  │  Analise_Jef/00-boas-praticas.md §3.                      │
  *  └──────────────────────────────────────────────────────────┘
  *
  *  Companion em JSON (W3C Design Tokens/DTCG): design-tokens-global.json —
@@ -29,7 +39,8 @@
  *  3. Adicione a camada semântica de produto logo abaixo desta importação
  *     — cada produto redefine apenas os tokens que mudam (acento, estruturante)
  *     — ver docs/04-identidade-ecossistema.md para o guia por produto
- *  4. Regra única: componentes referenciam só tokens semânticos
+ *  4. Regra base: componentes referenciam semânticos (ou componente, se o
+ *     produto adotar essa 3ª camada) — nunca primitivos diretamente
  *
  *  FONTES SELF-HOSTED REQUERIDAS
  *  DM Serif Display 400/400i  — display, manchetes, KPIs

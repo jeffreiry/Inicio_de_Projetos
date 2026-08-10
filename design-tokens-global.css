@@ -18,6 +18,10 @@
  *  │  Mudam de valor no dark mode e na camada de produto.     │
  *  └──────────────────────────────────────────────────────────┘
  *
+ *  Companion em JSON (W3C Design Tokens/DTCG): design-tokens-global.json —
+ *  mesmos tokens, formato pra importar como Figma Variables de verdade
+ *  (vinculadas) em vez de cor fixa gravada. Mantenha os dois em sincronia.
+ *
  *  COMO INTEGRAR NUM PROJETO:
  *  1. Copie para src/styles/tokens.css (ou importe via @import)
  *  2. Ajuste o caminho dos @font-face para as fontes locais do projeto

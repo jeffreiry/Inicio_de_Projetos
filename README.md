@@ -27,6 +27,7 @@ Para apps que já existem. Os agentes auditam, corrigem e evoluem.
 ├── README.md                  ← este arquivo
 ├── APP_BRIEFING.md            ← briefing para projeto novo
 ├── design-tokens-global.css   ← fonte de verdade da identidade base (ecossistema)
+├── design-tokens-global.json  ← mesmos tokens em JSON (W3C DTCG) — pra importar como Figma Variables de verdade
 │
 ├── agents/                    ← Trilha A — projeto novo
 │   ├── 01-produto.md

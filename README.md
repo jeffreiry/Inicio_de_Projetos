@@ -10,6 +10,39 @@
 
 ---
 
+## Para quem nunca usou (pré-requisitos e instalação)
+
+### O que você precisa ter instalado
+1. **VS Code** — [code.visualstudio.com](https://code.visualstudio.com/)
+2. **Claude Code** — extensão/CLI oficial da Anthropic. Guia oficial: [claude.com/claude-code](https://claude.com/claude-code). Requer uma conta com acesso ao Claude (assinatura Pro/Max, ou uma API key da Anthropic).
+3. **Git** (opcional, só se for clonar em vez de baixar ZIP) — [git-scm.com](https://git-scm.com/)
+
+### Como baixar este repositório
+**Opção A — sem usar linha de comando (mais simples):**
+1. Nesta página do GitHub, clique no botão verde **"Code"** → **"Download ZIP"**.
+2. Extraia o ZIP em qualquer pasta do seu computador (ex: `Downloads/Inicio_de_Projetos`).
+
+**Opção B — clonando com git:**
+```
+git clone https://github.com/jeffreiry/Inicio_de_Projetos.git
+```
+
+**Opção C — usar como template (recomendado se você vai customizar o template para seu próprio uso):**
+No GitHub, clique em **"Use this template"** → **"Create a new repository"**. Isso cria uma cópia independente na sua própria conta, que você pode editar sem afetar o repositório original.
+
+### Regra mais importante deste repositório
+> ⚠️ Depois de baixar, **nunca abra a pasta `Inicio_de_Projetos` diretamente no Claude Code/VS Code como se fosse o seu projeto**. Ela é só uma "prateleira" de onde você copia arquivos. Cada app que você for criar precisa da **sua própria pasta separada**.
+
+### Primeiro uso, passo a passo
+1. Crie uma pasta nova para o seu app (ex: `MeuApp/`) e abra **essa pasta** no VS Code.
+2. Volte na pasta `Inicio_de_Projetos` e copie o arquivo `APP_BRIEFING.md` para dentro da pasta do seu app.
+3. Renomeie a cópia para `briefing-[nome-do-app].md` e responda as perguntas (pode ser aos poucos).
+4. Abra o Claude Code dentro da pasta do seu app e cole o conteúdo do agente `agents/01-produto.md`, seguido do seu briefing respondido, numa única mensagem.
+5. Siga a sequência de agentes (02, 03, 04, 05, 06) descrita na seção "Trilha A" abaixo — cada um lê o output do anterior e você vai colando/copiando os arquivos gerados dentro da pasta do seu app.
+6. No final, o Agente 06 gera `CLAUDE.md`, `app.md`, `SETUP.md` e `DESIGN.md` prontos. Com esses arquivos na raiz do seu projeto, instrua o Claude Code: *"Leia o CLAUDE.md e comece pela Etapa 1 do SETUP.md."*
+
+---
+
 ## Duas trilhas de uso
 
 ### Trilha A — Projeto novo

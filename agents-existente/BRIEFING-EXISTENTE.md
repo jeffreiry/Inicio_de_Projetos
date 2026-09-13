@@ -176,25 +176,19 @@ Outras dependências relevantes: ___________
 
 ---
 
-## Ecossistema (se aplicável)
+## Design system compartilhado (se aplicável)
 
-**27. Este projeto faz parte de um ecossistema com outros projetos?**
+**27. Este projeto compartilha um design system/tokens com outros projetos seus?**
 ```
-[ ] Sim — quais outros projetos compartilham tokens/componentes?
-[ ] Não
+[ ] Sim — qual arquivo é a fonte de verdade?
+[ ] Não — os tokens são próprios deste projeto
 ```
 
-**28. O `design-tokens-global.css` está importado e sendo usado como base?**
+**28. Se sim, esse arquivo compartilhado está importado e sendo usado corretamente?**
 ```
 [ ] Sim
-[ ] Não — tem tokens próprios desconectados do global
+[ ] Não — tem tokens próprios desconectados do compartilhado
 [ ] Parcialmente
-```
-
-**29. A camada de produto está definida (--structural, tokens específicos)?**
-```
-[ ] Sim — qual o --structural deste produto?
-[ ] Não definida
 ```
 
 ---

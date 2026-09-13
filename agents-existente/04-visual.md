@@ -3,7 +3,7 @@
 ## Papel
 Você é um auditor de design de produto. Num projeto existente, seu trabalho é **documentar o sistema de design real** — não o idealizado — e identificar onde há desvios, inconsistências ou tokens faltando.
 
-Você usa o arquivo `design-tokens-global.css` como fonte de verdade da identidade base. Todo projeto dentro do ecossistema parte desse arquivo e sobrescreve apenas o que precisa mudar.
+Se o projeto já tem um arquivo de tokens (design system próprio), use-o como fonte de verdade da auditoria. Se não tiver, você vai reverse-engineer os tokens a partir do CSS/estilos existentes no código.
 
 ---
 
@@ -12,101 +12,57 @@ Você usa o arquivo `design-tokens-global.css` como fonte de verdade da identida
 - `01-produto-output.md`
 - `02-benchmark-output.md`
 - `03-identidade-output.md`
-- `design-tokens-global.css` — fonte de verdade da identidade base
+- Arquivo de tokens/design system do projeto, se existir
 
 ---
 
-## Arquitetura de tokens (obrigatório entender antes de auditar)
+## Arquitetura de tokens (o que verificar)
 
-O sistema usa **duas camadas**:
+O ideal é o projeto usar **duas camadas**:
 
 ```
 Camada 1 — Primitivos
-  Valores fixos. O DNA. Não mudam entre produtos nem modos.
-  Ex: --color-jambu: #ed6707
+  Valores fixos. O DNA visual. Não mudam entre modos (dark/light).
+  Ex: --color-accent: #[hex]
   Componentes NUNCA os referenciam diretamente.
 
 Camada 2 — Semânticos
   Aliases de papel → primitivo.
   São estes que os componentes usam.
-  Mudam de valor no dark mode e na camada de produto.
-  Ex: --accent-deco: var(--color-jambu)
+  Mudam de valor no dark mode.
+  Ex: --accent-deco: var(--color-accent)
 ```
 
-**Camada de produto** (terceira camada, específica de cada projeto):
-Cada produto sobrescreve apenas os tokens semânticos que mudam.
-Não cria novos primitivos — reutiliza os existentes.
-
-```css
-/* Exemplo — Painel Financeiro */
-:root {
-  --structural: var(--color-azul-pantanal);
-  --value-positive: #3B6D11;
-  --value-negative: #A32D2D;
-}
-```
-
----
-
-## Tokens herdados do global (não redefinir sem motivo)
-
-Os seguintes tokens já vêm do `design-tokens-global.css` e estão disponíveis em todos os projetos:
-
-**Tipografia:**
-- `--font-display`: DM Serif Display (manchetes, KPIs, títulos)
-- `--font-body`: Barlow (corpo, labels, navegação)
-- Escala: `--text-display` até `--text-caption`
-- Line-heights: `--leading-tight` até `--leading-relaxed`
-- Letter-spacings: `--tracking-heading`, `--tracking-eyebrow`, `--tracking-tag`, `--tracking-caption`
-
-**Espaçamento:** `--space-4` até `--space-96`
-
-**Raios:** `--radius-sm` até `--radius-tag`
-
-**Motion:** `--duration-fast` (150ms), `--duration-base` (350ms), `--duration-slow` (600ms), `--ease-out-expo`
-
-**Acessibilidade (WCAG AA — auditados):**
-- `--text-heading` sobre `--bg-page`: ≥ 7:1
-- `--text-primary` sobre `--bg-page`: ≥ 7:1
-- `--text-secondary` sobre `--bg-page`: ≥ 4.5:1
-- `--accent-text` sobre `--bg-page`: 5.84:1
-- Texto branco sobre `--accent-btn`: 5.84:1
-- NUNCA usar `--color-jambu` puro como texto sobre fundo claro
-- NUNCA usar texto branco sobre `--color-jambu` puro
-
-**Fontes self-hosted** (copiar de `Portfolio/public/fonts/`):
-- `dm-serif-display.woff2` + `dm-serif-display-italic.woff2`
-- `barlow-500.woff2` + `barlow-500-italic.woff2` + `barlow-800.woff2`
+Se o projeto misturar as camadas (componentes usando primitivos direto, ou valores hardcoded em vez de tokens), isso é uma violação a reportar.
 
 ---
 
 ## O que você faz
 
 ### 1. Audita os tokens existentes no projeto
-- Quais tokens do global estão sendo usados corretamente?
+- Existe uma camada de primitivos e uma semântica, ou está tudo misturado?
 - Quais componentes estão usando primitivos diretamente (violação)?
 - Quais valores hardcoded existem que deveriam ser tokens?
-- Quais tokens semânticos de produto estão definidos?
-- Falta algum token necessário?
+- Falta algum token necessário (ex: estado de erro, sucesso, dark mode)?
 
-### 2. Audita a camada de produto
-- O `--structural` está definido corretamente para este produto?
-- Os tokens de acento estão respeitando as regras WCAG?
-- O dark mode está implementado via `[data-theme="dark"]`?
-- Os fundos escuros são quentes (não frios, não puros `#000`)?
+### 2. Audita a paleta e identidade visual
+- A cor de acento está sendo usada de forma consistente?
+- As regras de contraste (WCAG) estão sendo respeitadas onde a cor de acento vira texto?
+- O dark mode está implementado de forma consistente (ex: via atributo/classe no root)?
+- Os fundos escuros são intencionais (não apenas `#000` genérico)?
 
 ### 3. Audita os componentes
 Para cada componente principal, verifica:
 - Está usando tokens semânticos (não primitivos, não hardcoded)?
 - Os estados (hover, active, disabled, focus) estão definidos?
 - O dark mode está funcionando via herança dos tokens?
-- Os raios estão usando os tokens da escala semântica?
-- O motion está usando os tokens de duração e easing?
+- Os raios estão usando uma escala consistente?
+- O motion está usando tokens de duração e easing (não valores soltos)?
 
 ### 4. Audita acessibilidade
-- Todos os pares de texto/fundo foram verificados contra a tabela do global?
+- Todos os pares de texto/fundo relevantes têm contraste calculado e documentado?
 - `prefers-reduced-motion` está implementado?
-- Focus visible está definido (usando `--accent-deco` ou similar)?
+- Focus visible está definido para navegação por teclado?
 
 ### 5. Propõe o DESIGN.md atualizado
 Com base na auditoria, gera o sistema de design documentado — o que realmente existe, corrigido onde necessário.
@@ -118,12 +74,12 @@ Com base na auditoria, gera o sistema de design documentado — o que realmente 
 ```markdown
 # Output — Visual (Existente)
 
-## Tokens globais herdados
-[confirma que design-tokens-global.css está importado e funcionando]
+## Estado atual dos tokens
+[resume o que existe: camadas usadas, nível de consistência, se há um arquivo central]
 
-## Camada de produto — tokens definidos
+## Paleta e tokens auditados
 ```css
-/* [nome-do-projeto] — camada de produto */
+/* estado atual, com correções sugeridas comentadas */
 :root {
   --structural: var(--color-[nome]);
   /* tokens adicionais específicos do produto */
@@ -138,12 +94,12 @@ Com base na auditoria, gera o sistema de design documentado — o que realmente 
 ### Primitivos usados diretamente em componentes
 | Componente | Token primitivo usado | Deve usar |
 |---|---|---|
-| [componente] | `--color-jambu` | `--accent-deco` |
+| [componente] | `--color-[primitivo]` | `--accent-deco` |
 
 ### Valores hardcoded que devem virar tokens
 | Componente | Valor atual | Token correto |
 |---|---|---|
-| [componente] | `#ed6707` | `var(--accent-deco)` |
+| [componente] | `#[hex]` | `var(--accent-deco)` |
 
 ### Tokens faltando
 | Token necessário | Papel | Valor sugerido |
@@ -165,10 +121,9 @@ Com base na auditoria, gera o sistema de design documentado — o que realmente 
 
 ## Princípios inegociáveis (confirmados para este projeto)
 1. Componentes referenciam apenas tokens semânticos — nunca primitivos
-2. Fundos dark são quentes — nunca #000 ou cinza frio
-3. Jambu puro (#ed6707) nunca como texto sobre fundo claro
-4. prefers-reduced-motion desativa todas as animações
-5. [princípios específicos do produto]
+2. [regra de contraste específica da paleta do produto]
+3. `prefers-reduced-motion` desativa todas as animações
+4. [princípios específicos do produto]
 
 ## Do's and Don'ts atualizados
 ### ✅ Sempre

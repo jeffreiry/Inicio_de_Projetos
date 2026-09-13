@@ -59,8 +59,6 @@ Para apps que já existem. Os agentes auditam, corrigem e evoluem.
 /                              ← este repositório (template)
 ├── README.md                  ← este arquivo
 ├── APP_BRIEFING.md            ← briefing para projeto novo
-├── design-tokens-global.css   ← fonte de verdade da identidade base (ecossistema)
-├── design-tokens-global.json  ← mesmos tokens em JSON (W3C DTCG) — pra importar como Figma Variables de verdade
 │
 ├── agents/                    ← Trilha A — projeto novo
 │   ├── 01-produto.md
@@ -123,10 +121,7 @@ Duplique o `APP_BRIEFING.md`, renomeie para `briefing-[nome].md` e responda os b
 ### 1. Preencha o briefing de auditoria
 Duplique o `agents-existente/BRIEFING-EXISTENTE.md` e responda com foco no estado atual — não no que foi planejado.
 
-### 2. Disponibilize o design-tokens-global.css
-Se o projeto faz parte do ecossistema, o Agente 04 usa este arquivo como fonte de verdade para auditar os tokens.
-
-### 3. Rode os agentes em sequência
+### 2. Rode os agentes em sequência
 
 ```
 01-produto.md     → auditoria de produto: real vs planejado
@@ -144,13 +139,13 @@ Se o projeto faz parte do ecossistema, o Agente 04 usa este arquivo como fonte d
 
 ---
 
-## O arquivo design-tokens-global.css
+## Arquitetura de tokens (usada pelo Agente 04 em ambas as trilhas)
 
-É a fonte de verdade da identidade visual do ecossistema. Contém:
+Todo projeto gerado por este template segue duas camadas de tokens:
 
 **Camada 1 — Primitivos** (não usar diretamente em componentes)
-- Paleta brasileira: Chá Mate, Jambu, Azul Pantanal, Figo
-- Neutros quentes (nunca branco puro ou cinza frio)
+- Paleta de cores escolhida para o produto
+- Neutros (quentes ou frios, conforme o tom do produto)
 - Escala tipográfica completa
 - Raios semânticos
 - Espaçamento
@@ -160,17 +155,13 @@ Se o projeto faz parte do ecossistema, o Agente 04 usa este arquivo como fonte d
 - Hierarquia de texto (`--text-heading`, `--text-primary`...)
 - Fundos (`--bg-page`, `--bg-surface`...)
 - Acento com regras WCAG (`--accent-deco`, `--accent-text`, `--accent-btn`)
-- `--structural` — sobrescrito por produto
 
-**Camada de produto** (cada projeto define a sua)
-- Sobrescreve apenas `--structural` e tokens específicos do domínio
-- Não cria novos primitivos — reutiliza os existentes
-
-**Regras WCAG AA auditadas:**
-- Nunca `--color-jambu` puro como texto sobre fundo claro
-- Nunca texto branco sobre `--color-jambu` puro
-- `--accent-text` (jambu-text) sobre `--bg-page`: 5.84:1
+**Regras WCAG AA obrigatórias:**
+- A cor de acento nunca vira texto sem contraste calculado e documentado
+- Todo par texto/fundo relevante tem o ratio real auditado
 - `prefers-reduced-motion` desativa todas as animações
+
+Cada projeto tem sua própria paleta — os tokens nascem do zero a cada uso (Trilha A) ou são reverse-engineered do código existente (Trilha B). Não há um arquivo global compartilhado neste template.
 
 ---
 
@@ -206,7 +197,7 @@ CLAUDE.md + app.md + SETUP.md + DESIGN.md
 ## Fluxo visual — Trilha B
 
 ```
-briefing-existente.md + design-tokens-global.css
+briefing-existente.md
     │
     ▼
 [01] Auditoria Produto ─────────────────────┐
@@ -246,7 +237,7 @@ Sim. Cole os agentes em sequência passando os outputs de um para o próximo.
 Sim. Se o visual mudar, só re-roda o 04 e o 06.
 
 **Qual agente dá mais trabalho na Trilha B?**
-O 04 (Visual) — porque cruza o código existente com o `design-tokens-global.css` e exige atenção a cada token.
+O 04 (Visual) — porque precisa reverse-engineer os tokens a partir do código existente e exige atenção a cada componente.
 
-**O design-tokens-global.css é obrigatório?**
-Só se o projeto fizer parte do ecossistema. Para projetos isolados, o Agente 04 da Trilha A gera os tokens do zero.
+**Preciso ter um design system pronto antes de começar?**
+Não. Na Trilha A, o Agente 04 gera a paleta e os tokens do zero com base no seu briefing. Na Trilha B, ele audita o que já existe no código, mesmo que nunca tenha sido formalizado em tokens.

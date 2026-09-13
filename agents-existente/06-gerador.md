@@ -14,7 +14,6 @@ Você também gera um `CHANGELOG.md` documentando o que mudou em relação ao es
 - `03-identidade-output.md`
 - `04-visual-output.md`
 - `05-arquitetura-output.md`
-- `design-tokens-global.css` — fonte de verdade da identidade base
 
 ---
 
@@ -56,24 +55,22 @@ Documento de produto refletindo o estado real pós-auditoria:
 - Novas variáveis de ambiente
 
 ### `DESIGN.md` (atualizado)
-Incorpora obrigatoriamente a arquitetura de duas camadas do `design-tokens-global.css`:
+Incorpora a estrutura de tokens auditada em `04-visual-output.md`:
 
 ```
-Estrutura obrigatória do DESIGN.md para projetos do ecossistema:
+Estrutura recomendada do DESIGN.md:
 
-1. Tokens globais herdados (não redefinir — só referenciar)
-   - Fontes: DM Serif Display + Barlow (self-hosted)
+1. Paleta e tokens (primitivos + semânticos)
+   - Fontes usadas (self-hosted quando possível)
    - Escala tipográfica: --text-display até --text-caption
-   - Espaçamento: --space-4 até --space-96
-   - Raios: --radius-sm até --radius-tag
-   - Motion: --duration-fast/base/slow + --ease-out-expo
+   - Espaçamento e raios em escala consistente
+   - Motion: durações e easing padronizados
    - Acessibilidade: tabela de contrastes auditados
 
-2. Camada de produto (tokens que este projeto sobrescreve)
-   - --structural: var(--color-[nome])
-   - Tokens de acento ajustados (se diferente do base)
-   - Tokens específicos do domínio (ex: --value-positive para financeiro)
-   - Dark mode via [data-theme="dark"]
+2. Tokens específicos do produto (definidos ou corrigidos nesta auditoria)
+   - Tokens de acento ajustados, se necessário
+   - Tokens específicos do domínio do produto
+   - Dark mode via atributo/classe consistente
 
 3. Componentes (usando apenas tokens semânticos)
    - Nunca primitivos diretamente
